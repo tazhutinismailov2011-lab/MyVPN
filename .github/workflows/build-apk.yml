@@ -16,8 +16,7 @@ jobs:
       - name: Extract project ZIP
         run: |
           unzip -q MyVPN-APK-build.zip
-          cd MyVPN-APK-build
-          echo "PROJECT_DIR=$PWD" >> $GITHUB_ENV
+          echo "PROJECT_DIR=$PWD/MyVPN-APK-build" >> $GITHUB_ENV
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -25,9 +24,11 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Install Android SDK packages
         run: |
-          yes | sdkmanager --licenses || true
           sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Install Gradle
